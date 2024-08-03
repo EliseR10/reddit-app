@@ -35,6 +35,10 @@
   font-family: Arial;
 }
 
+#error {
+  width: 100%;
+}
+
 /*FILTERS*/
 #filters {
   float: left;
@@ -112,7 +116,7 @@
   }
 
   #researchbar {
-    width: 60%;
+    width: 70%;
     margin-bottom: 10px;
   }
 
@@ -130,5 +134,10 @@
     width: 75%;
     position: relative;
     left: 10%;
+  }
+
+  #authButton {
+    width: 45%;
+    font-size: 14px;
   }
 }

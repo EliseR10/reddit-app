@@ -9,7 +9,7 @@ import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } 
 
 const router = createBrowserRouter(createRoutesFromElements(
   <>
-  /* Wrap this Root Route to create Router here */
+  {/* Wrap this Root Route to create Router here */}
   <Route path="/" element={ < SearchBar /> }/>
     <Route path="article" element={<Article/>}/>
     <Route path="homeButton" element={<HomeButton/>}/>
