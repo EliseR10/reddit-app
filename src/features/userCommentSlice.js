@@ -22,7 +22,7 @@ export const loadComment = createAsyncThunk('comments/loadComment', async({artic
     }
 
     const responseData = await response.json();
-    return { articleId, comments: responseData};
+    return responseData;
 })
 
 //Allow user to post comment 

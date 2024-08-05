@@ -4,8 +4,9 @@ import {Container, Dropdown, InputGroup, FormControl, Card, Row, Form} from 'rea
 import { Outlet, Link } from "react-router-dom";
 import Header from "../features/header";
 import { useDispatch, useSelector } from 'react-redux';
-import { loadAllPreview, selectAllPreviews, isLoading, selectError } from "../features/searchReducer";
+import { loadAllPreview, selectAllPreviews, isLoading, selectError, setFilter, selectFilter } from "../features/searchReducer";
 import { AuthButton } from "../features/redditAuth";
+import LoadComments from "../features/userComments";
 
 export default function SearchBar() {
         const [searchTerm, setSearchTerm] = useState("");
@@ -13,14 +14,14 @@ export default function SearchBar() {
         const search = useSelector(selectAllPreviews);
         const isLoadingPreviews = useSelector(isLoading);
         const [accessToken, setAccessToken] = useState("");
-        const [filter, setFilter] = useState("best");
         const error = useSelector(selectError);
+        const filter = useSelector(selectFilter); //get the current filter
 
         useEffect(() => {
             if (searchTerm) {
-                dispatch(loadAllPreview(filter));
+                dispatch(loadAllPreview({query: searchTerm, filter, accessToken}));
             }
-        }, [dispatch, filter]);
+        }, [dispatch, searchTerm, accessToken, filter]);
 
         //update the searchTerm on input change
         const handleInputChange = (e) => {
@@ -29,7 +30,7 @@ export default function SearchBar() {
 
         //Dispatch fetchSearchResults when the form is submitted
         const handleSubmit = (e) => {
-            e.preventDefault();
+            e.preventDefault(); //prevent the default action to be executed
 
             //throw an alert if the searchBar is empty
             if (!searchTerm) {
@@ -40,7 +41,7 @@ export default function SearchBar() {
             //dispatch(loadAllPreview());
 
             console.log("You tried to made a search about " + searchTerm);
-            dispatch(loadAllPreview({query: searchTerm, accessToken, filter}));
+            dispatch(loadAllPreview({searchTerm, accessToken, filter})); //get explanation
             console.log("request dispatched");
         }
 
@@ -51,10 +52,9 @@ export default function SearchBar() {
         };
 
         //filters
-        const handleFilterChange = (filter) => {
-            setFilter(filter);
-            dispatch(loadAllPreview({ accessToken, searchTerm, filter }))
-            console.log("Filter clicked")
+        const handleFilterChange = (filterValue) => {
+            dispatch(setFilter(filterValue)); //Set the filter in the Redux State
+            console.log("You clicked on filter " + filterValue)
         };
 
     return (
@@ -68,23 +68,25 @@ export default function SearchBar() {
                     type="input"
                     value={searchTerm}
                     onChange={handleInputChange}/>
-            <AuthButton/>
-            </InputGroup>
-            </Form>
-
-            <Container>
+                
+                
                 <Row>
                 <Dropdown id="filters">
-                    <Dropdown.Toggle size="sm" variant="secondary">Filter</Dropdown.Toggle>
+                    <Dropdown.Toggle size="sm" variant="secondary">Select your filter</Dropdown.Toggle>
 
-                    <Dropdown.Menu size="sm">
-                        <Dropdown.Item onClick={() => handleFilterChange()}>Best</Dropdown.Item>
-                        <Dropdown.Item onClick={() => handleFilterChange()}>New</Dropdown.Item>
-                        <Dropdown.Item onClick={() => handleFilterChange()}>Top</Dropdown.Item>
+                    <Dropdown.Menu size="sm" id="selectFilter">
+                        <Form.Check type="radio" name="filter" label="New" value="new" onChange={() => handleFilterChange('new')}></Form.Check>
+                        <Form.Check type="radio" name="filter" label="Top" value="top" onChange={() => handleFilterChange('top')}></Form.Check>
+                        <Form.Check type="radio" name="filter" label="Hot" value="hot" onChange={() => handleFilterChange('hot')}></Form.Check>
                     </Dropdown.Menu>
                 </Dropdown>
                 </Row>
-            </Container>
+            
+                <AuthButton/>
+            
+            </InputGroup>
+            </Form>
+
             <Outlet/>
 
             {/*Generate as much cards as research needed*/}

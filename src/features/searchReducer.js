@@ -1,19 +1,21 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 //Get the data
-export const loadAllPreview = createAsyncThunk('search/loadAllPreview', async ({query, accessToken, filters}, {rejectWithValue}) => {
+export const loadAllPreview = createAsyncThunk('search/loadAllPreview', async ({query, accessToken, filter}, {rejectWithValue}) => {
     
     try {
         const searchParameters = {
             method: 'GET',
             headers: {
-              'Content-Type': 'application/json',
-              'Authorization': 'Bearer ' + accessToken
+                'x-cors-api-key': 'temp_364db55de9fa6817245ada3c11ed4da2',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + accessToken
             }
           };
-            const proxy = `https://cors.bridged.cc/`;
-            const endPoint = `https://www.reddit.com/search.json?q=${encodeURIComponent(query)}&sort=relevance&t=all`;
-            const response = await fetch(proxy + endPoint, searchParameters);
+            const proxy = `https://proxy.cors.sh/`;
+            const endPoint = `https://www.reddit.com/search.json?q=${encodeURIComponent(query)}&sort=${filter}&limit=25`;
+            const url = (proxy + endPoint);
+            const response = await fetch(url, searchParameters);
             
 
         if (response.status !== 200) {
@@ -35,9 +37,14 @@ const searchSlice = createSlice({
     initialState: {
         isLoading: false,
         articles: [],
-        error: false
+        error: false,
+        filter: ''
     },
-    reducers: {},
+    reducers: {
+        setFilter: (state, action) => {
+            state.filter = action.payload;
+        }
+    },
     extraReducers: (builder) => {
         builder.addCase(loadAllPreview.pending, (state) => {
             state.isLoading = true;
@@ -59,4 +66,8 @@ export default searchSlice.reducer;
 export const selectAllPreviews = (state) => state.search.articles;
 export const isLoading = (state) => state.search.isLoading;
 export const selectError = (state) => state.search.error;
+export const selectFilter = (state) => state.search.filter;
+
+export const { setFilter } = searchSlice.actions;
+//extract the Action Creator. Update the filter property in the state
 

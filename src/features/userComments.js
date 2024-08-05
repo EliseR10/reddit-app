@@ -2,7 +2,7 @@ import React, { useEffect, useState }  from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Container, InputGroup, FormControl, Button, Form, FormText} from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAllComments, isLoadingComments, loadComment, createComments } from "../features/userCommentSlice";
+import { selectAllComments, isLoadingComments, loadComment, createComments, postComment } from "../features/userCommentSlice";
 import { selectAllPreviews } from "../features/searchReducer";
 
 export default function UserComments() {
@@ -18,32 +18,29 @@ export default function UserComments() {
 
         //check if the comments are loading
         const loadingComments = useSelector(isLoadingComments);
-
-        //See Notes for Comments - the last || [] ensures that an empty array is returned instead of undefined
-        //const commentsForArticle = article ? comments[article.id] || [] : [];
-        
-        const [input, setInput] = useState("");
-
         const createIsPending = useSelector(createComments);
-
+        const [input, setInput] = useState("");
+        
         useEffect(() => {
-            if (article) {
-                dispatch(loadComment(article.I));
+            if (articleId) {
+                dispatch(loadComment({articleId}));
             }
         }, [articleId, dispatch]);
 
-        if(loadingComments) {
-            return <div>Loading...</div>;
-        }
-        if (!articleId) return null;
-
-        const handleSubmit = () => {
+        //HandleSubmit for Posting Comments
+        const handleSubmit = (e) => { //e for event and  access details like type of event, element that triggered the event, additional data
             e.preventDefault();//avoid the form from refreshing the page
             dispatch(postComment({
                 articleId,
-                comment: input}))
+                comment: input,
+                accessToken
+            }))
                 setInput('');//clear the comment input after submission
         };
+
+        if (loadingComments) {
+            return <div>Loading comments...</div>
+        }
     
     return (
         <Container>
@@ -56,7 +53,7 @@ export default function UserComments() {
                     value={input}
                     onChange={(e) => setInput(e.currentTarget.value)}
                     />
-                <Button id="buttonComments" variant="dark" comments={createComments}>Comment</Button>
+                <Button id="buttonComments" variant="dark" comments={createIsPending}>Comment</Button>
             </InputGroup>
             </Form>
 
