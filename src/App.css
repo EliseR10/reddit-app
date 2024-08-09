@@ -62,9 +62,8 @@
 
 /*BODY OF SEARCHBAR.JS*/
 #results {
-  background-color: #F7F0F0;
   padding-top: 10px;
-  margin-top: 10px;
+  margin-top: 15px;
 }
 
 #articleText {
@@ -124,15 +123,40 @@
   font-family: Arial;
 }
 
+.postedComments {
+  /*border: 1px solid grey;*/
+  width: 50%;
+  border-radius: 5px;
+  padding: 10px;
+  margin-top: 10px;
+}
+
 /*RESPONSIVE DESIGN*/
 @media only screen and (max-width: 500px) {
   #title {
     margin-left: 50px;
   }
 
-  #researchbar {
-    width: 70%;
+  #searchArea {
+    height: 37px;
+    margin-top: 10px;
+    margin-right: 2px;
+  }
+
+  #researchbar-container{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    width: 50%;
     margin-bottom: 10px;
+    margin-top: 10px;
+  }
+
+  #authButton {
+    width: 100%;
+    font-size: 14px;
+    margin-top: 5px;
+    float: right;
   }
 
   #results {
@@ -145,9 +169,4 @@
     left: 10%;
   }
 
-  #authButton {
-    width: 50%;
-    font-size: 14px;
-    margin-top: 10px;
-  }
 }

@@ -6,7 +6,6 @@ import Header from "../features/header";
 import { useDispatch, useSelector } from 'react-redux';
 import { loadAllPreview, selectAllPreviews, isLoading, selectError, setFilter, selectFilter } from "../features/searchReducer";
 import { AuthButton } from "../features/redditAuth";
-import LoadComments from "../features/userComments";
 
 export default function SearchBar() {
         const [searchTerm, setSearchTerm] = useState("");
@@ -41,7 +40,7 @@ export default function SearchBar() {
             //dispatch(loadAllPreview());
 
             console.log("You tried to made a search about " + searchTerm);
-            dispatch(loadAllPreview({searchTerm, accessToken, filter})); //get explanation
+            dispatch(loadAllPreview({searchTerm, accessToken, filter}));
             console.log("request dispatched");
         }
 
@@ -62,15 +61,15 @@ export default function SearchBar() {
             <Header/>
             
             <Form onSubmit={handleSubmit}>
-            <InputGroup id="researchbar">
+            <InputGroup>
                 <FormControl 
+                    id="researchbar-container"
                     placeholder="Make a research"
                     type="input"
                     value={searchTerm}
                     onChange={handleInputChange}/>
                 
-                
-                <Row>
+                <Row id="searchArea">
                 <Dropdown id="filters">
                     <Dropdown.Toggle size="sm" variant="secondary">Select your filter</Dropdown.Toggle>
 
@@ -90,7 +89,7 @@ export default function SearchBar() {
             <Outlet/>
 
             {/*Generate as much cards as research needed*/}
-            <Container className="pb-3" id="results">
+            <Container className="pb-3" id="results" style={{ backgroundColor: search.length > 0 ? '#F7F0F0' : '#FFFFFF'}}> {/*To apply background only when the results are rendred*/}
                 <Row className="mx-2 row row-cols-1 row-cols-md-2 row-cols-lg-3">
                 {isLoadingPreviews && <p>Loading...</p>}
                 {error &&

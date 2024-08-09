@@ -1,3 +1,11 @@
+# Reddit app with React, Redux and ReduxToolkit
+React/Redux app made with Reddit API to make a search and choose from some pre-defined filters (new, top, hot). Preview the article, click on it to display the full article. 
+Review the comments and add yours.
+Made for desktop and mobile.
+
+# Test
+Tested with Jest.
+
 # Getting Started with Create React App and Redux
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.

@@ -7,7 +7,7 @@ const CLIENT_ID = process.env.REACT_APP_REDDIT_CLIENT_ID;
 const CLIENT_SECRET = process.env.REACT_APP_REDDIT_CLIENT_SECRET;
 const REDIRECT_URI = "http://localhost:3000/";
 const STATE = encodeURIComponent('random_string');
-const SCOPE = "identity";
+const SCOPE = "identity read submit privatemessages";
 const DURATION = 'temporary';
 
 export const authEndpoint = `https://www.reddit.com/api/v1/authorize?client_id=${CLIENT_ID}&response_type=code&state=${STATE}&redirect_uri=${REDIRECT_URI}&duration=${DURATION}&scope=${SCOPE}`;
@@ -84,11 +84,13 @@ export const AuthButton = () => {
         
     return (
         <>
+        <div className="auth">
         {!isAuthenticated ? (
             <Button id="authButton" variant="outline-dark" onClick={() => handleLogin()}>Authenticate with Reddit</Button>
         ) : (
             <Button id="searchButton" variant="outline-dark" type="submit">Search</Button>
         )}
+        </div>
         </>
     )
 }
