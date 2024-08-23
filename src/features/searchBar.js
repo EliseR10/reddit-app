@@ -24,7 +24,7 @@ export default function SearchBar() {
 
         //update the searchTerm on input change
         const handleInputChange = (e) => {
-            setSearchTerm(e.target.value);
+            setSearchTerm(e.target.value); //link with handleInputChange to get the value updated
         }
 
         //Dispatch fetchSearchResults when the form is submitted

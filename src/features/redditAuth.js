@@ -13,12 +13,13 @@ const DURATION = 'temporary';
 export const authEndpoint = `https://www.reddit.com/api/v1/authorize?client_id=${CLIENT_ID}&response_type=code&state=${STATE}&redirect_uri=${REDIRECT_URI}&duration=${DURATION}&scope=${SCOPE}`;
 export const login = `${authEndpoint}`;
 
+//See Notes
 const useQuery = () => {
     return new URLSearchParams(useLocation().search);
 };
 
 export const handleLogin = () => {
-    window.location.href = login;
+    window.location.href = login; //Notes
 }
 
 //Track if the user is authenticated to render button
@@ -27,7 +28,7 @@ export const AuthButton = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [accessToken, setAccessToken] = useState("");
     const query = useQuery();
-    const code = query.get('code');
+    const code = query.get('code'); //extract a specific query parameter from the URL
     const [fetchTriggered, setFetchTriggered] = useState(false);
 
     useEffect(() => {
@@ -45,6 +46,7 @@ export const AuthButton = () => {
                     redirect_uri: REDIRECT_URI
                 });
 
+                //Notes
                 const headers = new Headers({
                     'Authorization': 'Basic ' + btoa(`${CLIENT_ID}:${CLIENT_SECRET}`),
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -53,7 +55,7 @@ export const AuthButton = () => {
                 const response = await fetch(tokenUrl, {
                     method: 'POST',
                     headers: headers,
-                    body: body.toString()
+                    body: body.toString() //Notes
                 });
 
                 if (response.ok) {

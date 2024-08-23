@@ -1,10 +1,8 @@
-import React, { useEffect, useState }  from "react";
+import React, { useState }  from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Container, InputGroup, FormControl, Button, Form, FormText} from 'react-bootstrap';
+import {Container, InputGroup, FormControl, Button, Form} from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAllComments, isLoadingComments, loadComment, createComments, selectCommentsError, postComment } from "../features/userCommentSlice";
-import { selectAllPreviews } from "../features/searchReducer";
-import SearchBar from "../features/searchBar";
+import { selectAllComments, isLoadingComments } from "../features/userCommentSlice";
 
 export default function UserComments({ article, accessToken}) {
         //Display the appropriate comments based on the current article
@@ -28,9 +26,6 @@ export default function UserComments({ article, accessToken}) {
 
             // update local state with the new comment
             setComments((prevComments) => [...prevComments, newComment]);
-
-            //Dispatch the comment to the server
-            /*dispatch(postComment({ article, comment: input, accessToken }));*/
             setInput(''); 
                     
         };
@@ -49,7 +44,7 @@ export default function UserComments({ article, accessToken}) {
                     type="input"
                     id="inputComments"
                     value={input}
-                    onChange={(e) => setInput(e.currentTarget.value)}
+                    onChange={(e) => setInput(e.currentTarget.value)} //similar to e.target.value. See Notes
                     />
                 <Button id="buttonComments" variant="dark" type="submit" disabled={createIsPending}>Comment</Button>
             </InputGroup>

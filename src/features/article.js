@@ -49,7 +49,7 @@ export default function Article({accessToken}) {
         
         {/*Add user comments here */}
         {/*{error && <div>Failed to load comments: {error.message}</div>}*/}
-        <UserComments comments={comments} article={article} accessToken={accessToken}/>
+        <UserComments comments={comments} article={article} accessToken={accessToken}/> {/*props to make it work*/}
         </Container>
     )
 }
